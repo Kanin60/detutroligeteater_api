@@ -1,4 +1,4 @@
-import ReservationLines from '../Models/reservationline.model.js'
+import ReservationLine from '../Models/reservationline.model.js'
 
 class ReservationLineController {
 
@@ -10,7 +10,7 @@ class ReservationLineController {
 	 */
 	list = async (req, res) => {
 		try {
-			const result = await ReservationLines.findAll({
+			const result = await ReservationLine.findAll({
 				attributes: ['seat_id', 'order_id']
 			})
 			// Parser resultat som json
@@ -32,7 +32,7 @@ class ReservationLineController {
 		const { id } = req.params
 
 		try {
-			const result = await ReservationLines.findOne({
+			const result = await ReservationLine.findOne({
 				attributes: ['id', 'seat_id', 'order_id'],
 				where: { id: req.params.id}
 			});
@@ -55,7 +55,7 @@ class ReservationLineController {
 
 		if(seat_id && order_id) {
 			try {
-				const model = await ReservationLines.create(obj)
+				const model = await ReservationLine.create(obj)
 				return res.json({
 					message: `Record created`,
 					newId: model.id
@@ -83,7 +83,7 @@ class ReservationLineController {
 
 		if(id) {
 			try {
-				await ReservationLines.destroy({ 
+				await ReservationLine.destroy({ 
 					where: { id: id }
 				})
 				res.status(200).send({

@@ -1,11 +1,11 @@
 import express from 'express'
 const AppRouter = express.Router()
-import ActorController from '../App/Controllers/actor.controller.js'
-import EventController from '../App/Controllers/event.controller.js'
-import SeatController from '../App/Controllers/seat.controller.js'
-import ReservationController from '../App/Controllers/reservation.controller.js'
-import ReviewsController from '../App/Controllers/review.controller.js'
-import FavoriteController from '../App/Controllers/favorite.controller.js'
+import ActorController from '../Controllers/actor.controller.js'
+import EventController from '../Controllers/event.controller.js'
+import SeatController from '../Controllers/seat.controller.js'
+import ReservationController from '../Controllers/reservation.controller.js'
+import ReviewsController from '../Controllers/review.controller.js'
+import FavoriteController from '../Controllers/favorite.controller.js'
 import { Authorize } from '../Middleware/auth.js'
 
 // Event Routes

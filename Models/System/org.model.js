@@ -34,9 +34,17 @@ Orgs.init({
 		type: DataTypes.STRING,
 		allowNull: false
 	},
-	phone	: {
+	phone: {
 		type: DataTypes.STRING,
 		allowNull: false
+	},
+	longtitude: {
+		type: DataTypes.DOUBLE,
+		allowNull: true
+	},
+	latitude: {
+		type: DataTypes.DOUBLE,
+		allowNull: true
 	}
 },{
 	sequelize,

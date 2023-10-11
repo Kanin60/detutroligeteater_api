@@ -1,5 +1,5 @@
-import Favorites from '../Models/favorite.model.js'
-import { getUserFromToken } from '../../Middleware/auth.js'
+import Favorite from '../Models/favorite.model.js'
+import { getUserFromToken } from '../Middleware/auth.js'
 
 class FavoriteController {
 
@@ -10,7 +10,7 @@ class FavoriteController {
 	 * @return {array} Returnerer JSON array
 	 */
 	list = async (req, res) => {
-		const result = await Favorites.findAll({
+		const result = await Favorite.findAll({
 			attributes: ['user_id', 'event_id'],
 		})
 		// Parser resultat som json
@@ -29,7 +29,7 @@ class FavoriteController {
 
 		if (event_id && user_id) {
 			try {				
-				const model = await Favorites.create({ user_id: user_id, event_id: event_id })
+				const model = await Favorite.create({ user_id: user_id, event_id: event_id })
 				res.status(201).send({ 
 					message: `Favorite created` 
 				})
@@ -63,7 +63,7 @@ class FavoriteController {
 
 		if(event_id && user_id) {
 			try {
-				const model = await Favorites.destroy({ 
+				const model = await Favorite.destroy({ 
 					where: { user_id: user_id, event_id: event_id }
 				})
 				res.status(201).send({ message: 'Favorite deleted' })

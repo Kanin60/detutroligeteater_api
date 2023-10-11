@@ -1,4 +1,4 @@
-import Groups from '../Models/group.model.js'
+import Groups from '../../Models/System/group.model.js'
 import { QueryParamsHandle } from '../../Middleware/helpers.js'
 
 /**

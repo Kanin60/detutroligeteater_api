@@ -1,11 +1,11 @@
-import sequelize from '../../Config/sequelize.config.js'
+import sequelize from '../Config/sequelize.config.js'
 import { DataTypes, Model } from 'sequelize'
 
 // Skriver ny klasse og udvider den med SQ's Model klasse
-class Genres extends Model {}
+class Actor extends Model {}
 
 // Initialiserer model
-Genres.init({
+Actor.init({
 	// Definerer felt egenskaber
 	id: {
 		type: DataTypes.INTEGER,
@@ -17,15 +17,19 @@ Genres.init({
 		type: DataTypes.STRING,
 		allowNull: false,
 		defaultValue: 'Ikke navngivet'
+	},
+	description: {
+		type: DataTypes.TEXT,
+		allowNull: true
+	},
+	image: {
+		type: DataTypes.TEXT,
+		allowNull: true
 	}
 }, {
 	sequelize, // Sequelize objekt
-	modelName: 'genre', // Model (tabel) navn
+	modelName: 'actor', // Model (tabel) navn
 	underscored: true, // Brug underscore istedet for camelcase
-	timestamps: false
-	//freezeTableName: false, // Lås tabelnavne til ental
-	//createdAt: true, // Undlad createdAt felt
-	//updatedAt: true //Undlad updatedAt felt
 })
 
-export default Genres
+export default Actor

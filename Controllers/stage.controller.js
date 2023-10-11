@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize'
-import Stages from '../Models/stage.model.js'
+import Stage from '../Models/stage.model.js'
 
 class StageController {
 
@@ -11,7 +11,7 @@ class StageController {
 	 */
 	list = async (req, res) => {
 		try {
-			const result = await Stages.findAll({
+			const result = await Stage.findAll({
 				attributes: ['id', 'name'],
 			})
 			// Parser resultat som json
@@ -34,7 +34,7 @@ class StageController {
 
 		if(id) {
 			try {
-				const result = await Stages.findOne({
+				const result = await Stage.findOne({
 					attributes: ['id', 'name'],
 					where: { id: id}
 				});
@@ -62,7 +62,7 @@ class StageController {
 		const { name } = req.body
 		if(name) {
 			try {
-				const model = await Stages.create(req.body)
+				const model = await Stage.create(req.body)
 				return res.json({
 					message: `Record created`,
 					newId: model.id
@@ -90,7 +90,7 @@ class StageController {
 
 		if(id) {
 			try {
-				const model = await Stages.update(req.body, {
+				const model = await Stage.update(req.body, {
 					where: {id: req.params.id}
 				})
 				return res.json({
@@ -118,7 +118,7 @@ class StageController {
 
 		if(id) {
 			try {
-				await Stages.destroy({ 
+				await Stage.destroy({ 
 					where: { id: req.params.id }
 				})
 				res.sendStatus({

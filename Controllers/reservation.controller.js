@@ -1,25 +1,25 @@
-import Reservations from '../Models/reservation.model.js'
-import ReservationLines from '../Models/reservationline.model.js';
-import Seats from '../Models/seat.model.js';
-import Events from '../Models/event.model.js';
-import Stages from '../Models/stage.model.js';
-import { QueryParamsHandle } from '../../Middleware/helpers.js';
+import Reservation from '../Models/reservation.model.js'
+import ReservationLine from '../Models/reservationline.model.js';
+import Seat from '../Models/seat.model.js';
+import Event from '../Models/event.model.js';
+import Stage from '../Models/stage.model.js';
+import { QueryParamsHandle } from '../Middleware/helpers.js';
 
 // Sætter modellers relationelle forhold - een til mange
-Reservations.hasMany(ReservationLines)
-ReservationLines.belongsTo(Reservations)
+Reservation.hasMany(ReservationLine)
+ReservationLine.belongsTo(Reservation)
 
 // Sætter modellers relationelle forhold - een til mange
-Seats.hasMany(ReservationLines)
-ReservationLines.belongsTo(Seats)
+Seat.hasMany(ReservationLine)
+ReservationLine.belongsTo(Seat)
 
 // Sætter modellers relationelle forhold - een til mange
-Events.hasMany(Reservations)
-Reservations.belongsTo(Events)
+Event.hasMany(Reservation)
+Reservation.belongsTo(Event)
 
 // Sætter modellers relationelle forhold - een til mange
-Stages.hasMany(Events)
-Events.belongsTo(Stages)
+Stage.hasMany(Event)
+Event.belongsTo(Stage)
 
 class ReservationController {
 	/**
@@ -43,7 +43,7 @@ class ReservationController {
 		}
 
 		try {
-			const result = await Reservations.findAll(dataObj)
+			const result = await Reservation.findAll(dataObj)
 			// Parser resultat som json
 			res.json(result)				
 		} catch (error) {
@@ -65,24 +65,24 @@ class ReservationController {
 		if(id) {
 			try {
 				// Sætter resultat efter sq metode
-				const result = await Reservations.findOne({
+				const result = await Reservation.findOne({
 					attributes: ['id','firstname', 'lastname', 'address', 'zipcode', 'city', 
 									'email', 'created_at'
 					],
 					include: [
 						{
-							model: Events,
+							model: Event,
 							attributes: [['id','event_id'], 'title', 'price'],
 							include: {
-								model: Stages,
+								model: Stage,
 								attributes: ['name']
 							}
 						},
 						{
-							model: ReservationLines,
+							model: ReservationLine,
 							attributes: ['seat_id'],
 							include: {
-								model: Seats,
+								model: Seat,
 								attributes: ['number']
 							}
 						}
@@ -116,11 +116,11 @@ class ReservationController {
 		if(event_id, firstname && lastname && address && zipcode && city) {
 
 			try {
-				const model = await Reservations.create(req.body)
+				const model = await Reservation.create(req.body)
 
 				await Promise.all(seats.map(async seat => {
 					try {
-						const newline = await ReservationLines.create({
+						const newline = await ReservationLine.create({
 							seat_id: seat, 
 							reservation_id: model.id
 						})
@@ -159,7 +159,7 @@ class ReservationController {
 
 		if(firstname && lastname && address && zipcode && city) {
 			try {
-				const model = await Reservations.update(req.body, {
+				const model = await Reservation.update(req.body, {
 					where: {id: id}
 				})
 				return res.json({
@@ -188,10 +188,10 @@ class ReservationController {
 
 		if(id) {
 			try {
-				await ReservationLines.destroy({ 
+				await ReservationLine.destroy({ 
 					where: { reservation_id: id }
 				})
-				await Reservations.destroy({ 
+				await Reservation.destroy({ 
 					where: { id: id }
 				})
 				res.status(200).send({

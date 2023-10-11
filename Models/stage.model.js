@@ -1,12 +1,11 @@
-import sequelize from '../../Config/sequelize.config.js'
+import sequelize from '../Config/sequelize.config.js'
 import { DataTypes, Model } from 'sequelize'
-import Reservations from './reservation.model.js'
 
 // Skriver ny klasse og udvider den med SQ's Model klasse
-class ReservationLines extends Model {}
+class Stage extends Model {}
 
 // Initialiserer model
-ReservationLines.init({
+Stage.init({
 	// Definerer felt egenskaber
 	id: {
 		type: DataTypes.INTEGER,
@@ -14,25 +13,19 @@ ReservationLines.init({
 		allowNull: false,
 		primaryKey: true
 	},
-	reservation_id: {
-		type: DataTypes.INTEGER,
+	name: {
+		type: DataTypes.STRING,
 		allowNull: false,
-		references: {
-			model: Reservations,
-			key: 'id'
-		}
-	},
-	seat_id: {
-		type: DataTypes.INTEGER,
-		allowNull: false
+		defaultValue: 'Ikke navngivet'
 	}
 }, {
 	sequelize, // Sequelize objekt
-	modelName: 'reservation_line', // Model (tabel) navn
+	modelName: 'stage', // Model (tabel) navn
 	underscored: true, // Brug underscore istedet for camelcase
+	timestamps: false
 	//freezeTableName: false, // Lås tabelnavne til ental
 	//createdAt: true, // Undlad createdAt felt
 	//updatedAt: true //Undlad updatedAt felt
 })
 
-export default ReservationLines
+export default Stage

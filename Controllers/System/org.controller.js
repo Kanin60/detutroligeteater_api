@@ -1,5 +1,5 @@
 import { QueryParamsHandle } from '../../Middleware/helpers.js'
-import Orgs from '../Models/org.model.js'
+import Orgs from '../../Models/System/org.model.js'
 
 /**
  * Controller for Org Actions
@@ -12,7 +12,7 @@ class OrgController {
 	 * @param {Object} res Express Response Object
 	 */
 	list = async (req, res) => {		
-		const qp = QueryParamsHandle(req, 'id, name')
+		const qp = QueryParamsHandle(req, 'id, name, longtitude, latitude')
 
 		try {
 			const result = await Orgs.findAll({
@@ -43,7 +43,18 @@ class OrgController {
 			try {
 				// Eksekverer sequelize metode med attributter og where clause
 				const result = await Orgs.findOne({
-					attributes: ['id', 'name', 'address', 'zipcode', 'city', 'country', 'createdAt', 'updatedAt'],
+					attributes: [
+						'id', 
+						'name', 
+						'address', 
+						'zipcode', 
+						'city', 
+						'country', 
+						'longtitude', 
+						'latitude', 
+						'createdAt', 
+						'updatedAt'
+					],
 					where: { id: id }
 				})
 				// Udskriver resultat i json format

@@ -1,8 +1,8 @@
 import express from 'express'
 const CoreRouter = express.Router()
-import UserController from '../Core/Controllers/user.controller.js'
-import GroupController from '../Core/Controllers/group.controller.js'
-import OrgController from '../Core/Controllers/org.controller.js';
+import UserController from '../Controllers/System/user.controller.js'
+import GroupController from '../Controllers/System/group.controller.js'
+import OrgController from '../Controllers/System/org.controller.js';
 import { Authenticate, Authorize } from "../Middleware/auth.js"
 
 // User Routes

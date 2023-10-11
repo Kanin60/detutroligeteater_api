@@ -1,11 +1,12 @@
-import sequelize from '../../Config/sequelize.config.js'
+import sequelize from '../Config/sequelize.config.js'
 import { DataTypes, Model } from 'sequelize'
+import Reservation from './reservation.model.js'
 
 // Skriver ny klasse og udvider den med SQ's Model klasse
-class Reservations extends Model {}
+class ReservationLine extends Model {}
 
 // Initialiserer model
-Reservations.init({
+ReservationLine.init({
 	// Definerer felt egenskaber
 	id: {
 		type: DataTypes.INTEGER,
@@ -13,41 +14,25 @@ Reservations.init({
 		allowNull: false,
 		primaryKey: true
 	},
-	firstname: {
-		type: DataTypes.STRING,
-		allowNull: false
-	},
-	lastname: {
-		type: DataTypes.STRING,
-		allowNull: false
-	},
-	address: {
-		type: DataTypes.STRING,
-		allowNull: false
-	},
-	zipcode: {
+	reservation_id: {
 		type: DataTypes.INTEGER,
-		allowNull: false
+		allowNull: false,
+		references: {
+			model: Reservation,
+			key: 'id'
+		}
 	},
-	city: {
-		type: DataTypes.STRING,
-		allowNull: false
-	},
-	email: {
-		type: DataTypes.STRING,
-		allowNull: false
-	},
-	event_id: {
+	seat_id: {
 		type: DataTypes.INTEGER,
 		allowNull: false
 	}
 }, {
 	sequelize, // Sequelize objekt
-	modelName: 'reservation', // Model (tabel) navn
+	modelName: 'reservation_line', // Model (tabel) navn
 	underscored: true, // Brug underscore istedet for camelcase
 	//freezeTableName: false, // Lås tabelnavne til ental
 	//createdAt: true, // Undlad createdAt felt
 	//updatedAt: true //Undlad updatedAt felt
 })
 
-export default Reservations
+export default ReservationLine

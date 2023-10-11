@@ -5,10 +5,9 @@ import path from 'path';
 import cors from "cors"
 
 import InstallRouter from "./Routes/install.router.js"
-import CoreRouter from "./Routes/core.router.js"
-import AppRouter from "./Routes/app.router.js"
+import SystemRouter from "./Routes/system.router.js"
+import MainRouter from "./Routes/main.router.js"
 
-dotenv.config()
 const port = process.env.PORT || 3000
 
 const app = express()
@@ -36,8 +35,8 @@ const currentDir = path.dirname(currentPath);
 app.use('/Assets', express.static(path.join(currentDir, 'Assets')));
 
 app.use(InstallRouter)
-app.use(CoreRouter)
-app.use(AppRouter)
+app.use(SystemRouter)
+app.use(MainRouter)
 
 app.listen(port, () => {
 	console.log(`Server kører på http://localhost:${port}`);

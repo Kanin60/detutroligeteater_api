@@ -1,35 +1,34 @@
-import sequelize from '../../Config/sequelize.config.js'
+import sequelize from '../Config/sequelize.config.js'
 import { DataTypes, Model } from 'sequelize'
+import Stage from './stage.model.js'
 
 // Skriver ny klasse og udvider den med SQ's Model klasse
-class Favorites extends Model {}
+class Seat extends Model {}
 
 // Initialiserer model
-Favorites.init({
+Seat.init({
 	// Definerer felt egenskaber
 	id: {
 		type: DataTypes.INTEGER,
 		autoIncrement: true,
 		allowNull: false,
 		primaryKey: true
-	},	
-	user_id: {
-		type: DataTypes.INTEGER,
-		allowNull: false,
 	},
-	event_id: {
+	stage_id: {
 		type: DataTypes.INTEGER,
 		allowNull: false,
+		references: {
+			model: Stage,
+			key: 'id'
+		}
+	},
+	number: {
+		type: DataTypes.INTEGER,
+		allowNull: false
 	}
 }, {
-    indexes: [
-        {
-            unique: true,
-            fields: ['user_id', 'event_id'], // Unik kombination af disse to felter
-        }
-    ],	
 	sequelize, // Sequelize objekt
-	modelName: 'favorite', // Model (tabel) navn
+	modelName: 'seat', // Model (tabel) navn
 	underscored: true, // Brug underscore istedet for camelcase
 	timestamps: false
 	//freezeTableName: false, // Lås tabelnavne til ental
@@ -37,4 +36,4 @@ Favorites.init({
 	//updatedAt: true //Undlad updatedAt felt
 })
 
-export default Favorites
+export default Seat

@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize'
-import Actors from '../Models/actor.model.js'
-import { QueryParamsHandle } from '../../Middleware/helpers.js'
+import Actor from '../Models/actor.model.js'
+import { QueryParamsHandle } from '../Middleware/helpers.js'
 
 // Kalder sq Operator til search clause
 const Op = Sequelize.Op;
@@ -16,7 +16,7 @@ class ActorController {
 		const qp = QueryParamsHandle(req, 'id, name, description, image')
 
 		try {
-			const result = await Actors.findAll({
+			const result = await Actor.findAll({
 				// Definerer array med felter
 				order: [qp.sort_key],			
 				limit: qp.limit,
@@ -38,7 +38,7 @@ class ActorController {
 		if(id) {
 			try {
 				// Sætter resultat efter sq metode
-				const result = await Actors.findOne({
+				const result = await Actor.findOne({
 					// Where clause
 					where: { id: id},
 					attributes: ['id', 'name', 'description', 'image'],
@@ -64,7 +64,7 @@ class ActorController {
 
 		if(name && description && image) {
 			try{
-				const model = await Actors.create(req.body)
+				const model = await Actor.create(req.body)
 				return res.json({
 					message: `Record created`,
 					newId: model.id
@@ -92,7 +92,7 @@ class ActorController {
 
 		if(id && name && description && image) {
 			try {
-				const model = await Actors.update(req.body, {
+				const model = await Actor.update(req.body, {
 					where: {id: id}
 				})	
 				return res.json({
@@ -122,7 +122,7 @@ class ActorController {
 
 		if(id) {
 			try {
-				await Actors.destroy({ 
+				await Actor.destroy({ 
 					where: { id: req.params.id }
 				})
 				res.status(200).send({

@@ -1,11 +1,11 @@
-import sequelize from '../../Config/sequelize.config.js'
+import sequelize from '../Config/sequelize.config.js'
 import { DataTypes, Model } from 'sequelize'
 
 // Skriver ny klasse og udvider den med SQ's Model klasse
-class Reviews extends Model {}
+class Event extends Model {}
 
 // Initialiserer model
-Reviews.init({
+Event.init({
 	// Definerer felt egenskaber
 	id: {
 		type: DataTypes.INTEGER,
@@ -13,42 +13,52 @@ Reviews.init({
 		allowNull: false,
 		primaryKey: true
 	},
-	subject: {
+	title: {
 		type: DataTypes.STRING,
 		allowNull: false,
 		defaultValue: 'Ikke navngivet'
 	},
-	comment: {
+	description: {
 		type: DataTypes.TEXT,
 		allowNull: true
 	},
-	num_stars: {
-		type: DataTypes.INTEGER,
+	image: {
+		type: DataTypes.TEXT,
 		allowNull: true
 	},
-	date: {
+	startdate: {
 		type: DataTypes.DATE,
 		allowNull: false,
-	},	
-	event_id: {
-		type: DataTypes.INTEGER,
-		allowNull: true
 	},
-	user_id: {
-		type: DataTypes.INTEGER,
-		allowNull: true
+	stopdate: {
+		type: DataTypes.DATE,
+		allowNull: false,
 	},
-	is_active: {
-		type: DataTypes.BOOLEAN,
-		allowNull: true
+	duration_minutes: {
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		defaultValue: 0
+	},
+	price: {
+		type: DataTypes.DOUBLE,
+		allowNull: false,
+		defaultValue: 0
+	},
+	genre_id: {
+		type: DataTypes.INTEGER,
+		allowNull: false
+	},
+	stage_id: {
+		type: DataTypes.INTEGER,
+		allowNull: false
 	}
 }, {
 	sequelize, // Sequelize objekt
-	modelName: 'review', // Model (tabel) navn
+	modelName: 'event', // Model (tabel) navn
 	underscored: true, // Brug underscore istedet for camelcase
 	//freezeTableName: false, // Lås tabelnavne til ental
 	//createdAt: true, // Undlad createdAt felt
 	//updatedAt: true //Undlad updatedAt felt
 })
 
-export default Reviews
+export default Event

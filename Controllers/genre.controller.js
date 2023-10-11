@@ -1,4 +1,4 @@
-import Genres from '../Models/genre.model.js'
+import Genre from '../Models/genre.model.js'
 
 class GenreController {
 
@@ -10,7 +10,7 @@ class GenreController {
 	 */
 	list = async (req, res) => {
 		try {
-			const result = await Genres.findAll({
+			const result = await Genre.findAll({
 				attributes: ['id', 'name'],
 			})
 			// Parser resultat som json
@@ -33,7 +33,7 @@ class GenreController {
 
 		if(id) {
 			try {
-				const result = await Genres.findOne({
+				const result = await Genre.findOne({
 					attributes: ['id', 'name'],
 					where: { id: id}
 				});
@@ -61,7 +61,7 @@ class GenreController {
 
 		if(name) {
 			try {
-				const model = await Genres.create(req.body)
+				const model = await Genre.create(req.body)
 				return res.json({
 					message: `Record created`,
 					newId: model.id
@@ -89,7 +89,7 @@ class GenreController {
 
 		if(name) {
 			try {
-				const model = await Genres.update(req.body, {
+				const model = await Genre.update(req.body, {
 					where: {id: req.params.id}
 				})
 				return res.json({
@@ -118,7 +118,7 @@ class GenreController {
 
 		if(id) {
 			try {
-				await Genres.destroy({ 
+				await Genre.destroy({ 
 					where: { id: id }
 				})
 				res.sendStatus(200)

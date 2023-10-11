@@ -1,14 +1,14 @@
-import Users from '../../Core/Models/user.model.js'
-import Events from '../Models/event.model.js'
-import Reviews from '../Models/review.model.js'
-import { getUserFromToken } from '../../Middleware/auth.js'
+import Users from '../Models/System/user.model.js'
+import Event from '../Models/event.model.js'
+import Review from '../Models/review.model.js'
+import { getUserFromToken } from '../Middleware/auth.js'
 
 // Sætter modellers relationelle forhold - een til mange
-Users.hasMany(Reviews)
-Reviews.belongsTo(Users)
+Users.hasMany(Review)
+Review.belongsTo(Users)
 
-Events.hasMany(Reviews)
-Reviews.belongsTo(Events)
+Event.hasMany(Review)
+Review.belongsTo(Event)
 
 class ReviewsController {
 
@@ -20,13 +20,13 @@ class ReviewsController {
 	 */
 	list = async (req, res) => {
 		try {
-			const result = await Reviews.findAll({
+			const result = await Review.findAll({
 				attributes: ['id', 'subject', 'num_stars', 'created_at'],
 				include: [{
 					model: Users,
 					attributes: ['firstname', 'lastname', 'email']
 				}, {
-					model: Events,
+					model: Event,
 					attributes: ['title']
 				}],
 				where: { event_id: req.params.event_id }
@@ -53,13 +53,13 @@ class ReviewsController {
 
 		if(id) {
 			try {
-				const result = await Reviews.findOne({
+				const result = await Review.findOne({
 					attributes: ['id', 'subject', 'comment', 'num_stars', 'created_at'],
 					include: [{
 						model: Users,
 						attributes: ['firstname', 'lastname', 'email']
 					}, {
-						model: Events,
+						model: Event,
 						attributes: ['title']
 					}],
 		
@@ -91,7 +91,7 @@ class ReviewsController {
 		if(user_id && subject && comment && num_stars && event_id) {
 			try {
 				req.body.user_id = user_id
-				const model = await Reviews.create(req.body)
+				const model = await Review.create(req.body)
 				return res.json({
 					message: `Record created`,
 					newId: model.id
@@ -121,7 +121,7 @@ class ReviewsController {
 		if(id, subject && comment && num_stars && is_active) {
 			try {
 				req.body.user_id = user_id
-				const model = await Reviews.update(req.body, {
+				const model = await Review.update(req.body, {
 					where: {id: id}
 				})
 				return res.json({
@@ -150,7 +150,7 @@ class ReviewsController {
 
 		if(id) {
 			try {
-				await Reviews.destroy({ 
+				await Review.destroy({ 
 					where: { id: req.params.id }
 				})
 				res.status(200).send({

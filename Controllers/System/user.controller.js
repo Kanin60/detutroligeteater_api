@@ -1,7 +1,7 @@
-import Users from '../Models/user.model.js'
-import Groups from '../Models/group.model.js'
-import UserGroupRel from '../Models/user-group-rel.model.js'
-import Orgs from '../Models/org.model.js'
+import Users from '../../Models/System/user.model.js'
+import Groups from '../../Models/System/group.model.js'
+import UserGroupRel from '../../Models/System/user-group-rel.model.js'
+import Orgs from '../../Models/System/org.model.js'
 import { QueryParamsHandle } from '../../Middleware/helpers.js'
 
 // Definerer relation mellem user og org - one to many

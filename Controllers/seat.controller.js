@@ -1,9 +1,9 @@
-import Seats from '../Models/seat.model.js'
-import Stages from '../Models/stage.model.js';
+import Seat from '../Models/seat.model.js'
+import Stage from '../Models/stage.model.js';
 
 // Relation - one to many
-Stages.hasMany(Seats)
-Seats.belongsTo(Stages)
+Stage.hasMany(Seat)
+Seat.belongsTo(Stage)
 
 class SeatController {
 
@@ -16,10 +16,10 @@ class SeatController {
 	list = async (req, res) => {
 
 		try {
-			const result = await Seats.findAll({
+			const result = await Seat.findAll({
 				attributes: ['id', 'number'],
 				include: {
-					model: Stages
+					model: Stage
 				}
 			})
 			// Parser resultat som json

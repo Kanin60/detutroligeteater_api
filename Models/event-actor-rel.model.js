@@ -1,7 +1,7 @@
-import sequelize from "../../Config/sequelize.config.js";
+import sequelize from "../Config/sequelize.config.js";
 import { DataTypes, Model } from "sequelize";
-import Events from "./event.model.js";
-import Actors from "./actor.model.js";
+import Event from "./event.model.js";
+import Actor from "./actor.model.js";
 
 class EventActorRel extends Model{}
 
@@ -16,7 +16,7 @@ EventActorRel.init({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 		references: {
-			model: Events,
+			model: Event,
 			key: 'id'
 		}
 	},
@@ -24,7 +24,7 @@ EventActorRel.init({
 		type: DataTypes.INTEGER,
 		allowNull: false,
 		references: {
-			model: Actors,
+			model: Actor,
 			key: 'id'
 		}
 

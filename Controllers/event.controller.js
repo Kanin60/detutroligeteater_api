@@ -1,26 +1,26 @@
 import { Sequelize } from 'sequelize'
-import Events from '../Models/event.model.js'
+import Event from '../Models/event.model.js'
 import GenreModel from '../Models/genre.model.js';
-import Actors from '../Models/actor.model.js';
+import Actor from '../Models/actor.model.js';
 import StageModel from '../Models/stage.model.js';
-import { QueryParamsHandle } from '../../Middleware/helpers.js';
-import Stages from '../Models/stage.model.js';
-import Genres from '../Models/genre.model.js';
+import { QueryParamsHandle } from '../Middleware/helpers.js';
+import Stage from '../Models/stage.model.js';
+import Genre from '../Models/genre.model.js';
 
 // Kalder sq Operator til search clause
 const Op = Sequelize.Op;
 
 // Sætter modellers relationelle forhold - een til mange
-GenreModel.hasMany(Events)
-Events.belongsTo(GenreModel)
+Genre.hasMany(Event)
+Event.belongsTo(Genre)
 
 // Sætter modellers relationelle forhold - een til mange
-StageModel.hasMany(Events)
-Events.belongsTo(StageModel)
+Stage.hasMany(Event)
+Event.belongsTo(Stage)
 
 // Sætter modellers relationelle forhold - mange til mange
-Actors.belongsToMany(Events, { through: 'event_actor_rel' })
-Events.belongsToMany(Actors, { through: 'event_actor_rel' })
+Actor.belongsToMany(Event, { through: 'event_actor_rel' })
+Event.belongsToMany(Actor, { through: 'event_actor_rel' })
 
 class EventController {
 
@@ -35,16 +35,16 @@ class EventController {
 
 		try {
 			// Kalder SQ model
-			const result = await Events.findAll({
+			const result = await Event.findAll({
 				order: [qp.sort_key],
 				limit: qp.limit,
 				attributes: qp.attributes,
 				include: [{
-					model: GenreModel,
+					model: Genre,
 					attributes: ['id', 'name']
 				},
 				{
-					model: StageModel,
+					model: Stage,
 					attributes: ['id', 'name']
 				}]
 			})
@@ -69,7 +69,7 @@ class EventController {
 		if(keyword) {
 			try {
 				// Sætter resultat med sq metode
-				const result = await Events.findAll({
+				const result = await Event.findAll({
 					// where clause
 					where: {
 						[Op.or]: [
@@ -90,11 +90,11 @@ class EventController {
 					attributes: ['id', 'title', 'image', 'startdate', 'stopdate'],
 					// Inkluderer relationelle data fra artist via id
 					include: [{
-						model: Genres,
+						model: Genre,
 						attributes: ['id', 'name']
 					},
 					{
-						model: Stages,
+						model: Stage,
 						attributes: ['id', 'name']
 					}]
 				})
@@ -125,19 +125,19 @@ class EventController {
 		if(id) {
 			// Sætter resultat efter sq metode
 			try {
-				const result = await Events.findOne({
+				const result = await Event.findOne({
 					attributes: [
 						'id', 'title', 'description', 'image', 'startdate', 'stopdate', 'duration_minutes',
 						'price', 'created_at'
 					],
 					include: [{
-						model: Genres,
+						model: Genre,
 						attributes: ['id', 'name']
 					}, {
-						model: Stages,
+						model: Stage,
 						attributes: ['id', 'name']
 					}, {
-						model: Actors,
+						model: Actor,
 						attributes: ['id', 'name', 'description', 'image']
 					}],
 					// Where clause
@@ -172,7 +172,7 @@ class EventController {
 
 		if(title && description && image && startdate && stopdate && genre_id && stage_id) {
 			try {
-				const model = await Events.create(req.body)
+				const model = await Event.create(req.body)
 				return res.json({
 					message: `Record created`,
 					newId: model.id
@@ -201,7 +201,7 @@ class EventController {
 
 		if(id && title && description && image && startdate && stopdate) {
 			try {
-				const model = await Events.update(req.body, {
+				const model = await Event.update(req.body, {
 					where: {id: id}
 				})
 				return res.json({
@@ -229,7 +229,7 @@ class EventController {
 
 		if(id) {
 			try {
-				await Events.destroy({ 
+				await Event.destroy({ 
 					where: { id: id }
 				})
 				res.sendStatus(200)
