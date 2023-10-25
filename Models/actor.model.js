@@ -5,7 +5,7 @@ import { DataTypes, Model } from 'sequelize'
 class Actor extends Model {}
 
 // Initialiserer model
-Actor.init({
+export default Actor.init({
 	// Definerer felt egenskaber
 	id: {
 		type: DataTypes.INTEGER,
@@ -31,5 +31,3 @@ Actor.init({
 	modelName: 'actor', // Model (tabel) navn
 	underscored: true, // Brug underscore istedet for camelcase
 })
-
-export default Actor
